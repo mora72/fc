@@ -216,30 +216,31 @@ def emprestsaldo(listaemprest, mestrabalho, anotrabalho, listatrans):
         system("cls")
         cabecalho('SALDO DE EMPRESTIMOS')
         saldoini = realizado = saldofim = 0
-        print(f'{"NOME":<30} {"SALDO INI":>10} - {"REALIZADO":>10} {"SALDO FIM":>10}')
+        print(f'{espacos()}{"NOME":<30} {"SALDO INI":>10} - {"REALIZADO":>10} {"SALDO FIM":>10}')
         for x in listaemprest:
             if x["mes"] == mestrabalho and x["ano"] == anotrabalho:
                 saldoini += x["saldoini"]
                 saldofim += x["saldofim"]
                 realizado += x['realizado']
-                print(f'{x["nome"]:<30} {x["saldoini"]:>10,.2f} {x["realizado"]:>10,.2f} {x["saldofim"]:>10,.2f}')
-        print(linha(80))
-        print(f'{"TOTAL EMPRÉSTIMOS: ":<30} {saldoini:>10,.2f} {realizado:>10,.2f} {saldofim:>10,.2f}')
-        print(linha(80))
+                print(f'{espacos()}{x["nome"]:<30} {x["saldoini"]:>10,.2f}'
+                      f' {x["realizado"]:>10,.2f} {x["saldofim"]:>10,.2f}')
+        print(linha())
+        print(f'{espacos()}{"TOTAL EMPRÉSTIMOS: ":<30} {saldoini:>10,.2f} {realizado:>10,.2f} {saldofim:>10,.2f}')
+        print(linha())
         opcao = leiaint('Digite 1 - Cadastrar; 2 - Deletar; 3 - Update ou 9 - Sair: ')
         if opcao == 1:
-            nomeemprest = input('Digite nome do empréstimo: ')
+            nomeemprest = input(f'{espacos()}Digite nome do empréstimo: ')
             saldoemprest = leiafloat('Digite o saldo do empréstimo: ')
             registro = {'nome': nomeemprest, 'saldoini': saldoemprest, 'mes': mestrabalho, 'ano': anotrabalho,
                         'realizado': 0, 'saldofim': 0}
             listaemprest.append(registro.copy())
-            print('REGISTRO INSERIDO')
+            print(f'{espacos()}REGISTRO INSERIDO')
             aguardaenter()
         elif opcao == 2:
-            nomeemprest = input('Digite nome do empréstimo: ')
+            nomeemprest = input(f'{espacos()}Digite nome do empréstimo: ')
             for c, x in enumerate(listaemprest):
                 if x["mes"] == mestrabalho and x["ano"] == anotrabalho and x["nome"] == nomeemprest:
-                    print('REGISTRO REMOVIDO !')
+                    print(f'{espacos()}REGISTRO REMOVIDO !')
                     del listaemprest[c]
                     aguardaenter()
                     break
