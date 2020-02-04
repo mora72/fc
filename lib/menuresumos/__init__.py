@@ -8,7 +8,8 @@ def resumomes(listatrans, mestrabalho, anotrabalho, listacontas, listacontasprev
     for x in listacontasord:
         listaresumo.append(x['nome'])
         listaresumo.append(float(0))
-        vlrprevtemp = list(filter(lambda conta: conta['nome'] == x['nome'], listacontasprevisto))
+        vlrprevtemp = list(filter(lambda conta: (conta['nome'] == x['nome'] and conta['mes'] == mestrabalho and
+                                                 conta['ano'] == anotrabalho), listacontasprevisto))
         if len(vlrprevtemp) > 0:
             vlrprev = vlrprevtemp[0]['valorprevisto']
         else:
@@ -83,3 +84,11 @@ def resumomes(listatrans, mestrabalho, anotrabalho, listacontas, listacontasprev
     print(f'{espacos()}TOTAL EMPRÉSTIMOS: {totalemprestimos:>8,.2f}')
     print(linha(63))
     aguardaenter()
+
+
+def exiberesumomeiossaldo(listameios, listameiossaldo, mestrabalho, anotrabalho):
+    cabecalho('SALDO DE MEIOS DE PAGAMENTO')
+    for x in listameiossaldo:
+        if x["mes"] == mestrabalho and x["ano"] == anotrabalho:
+            nomemeio = list(filter(lambda meio: meio["cod"] == x["cod"], listameios))[0]["nome"]
+            print(f'{espacos()}{x["cod"]} {nomemeio:<20} {x["saldo"]:>10,.2f} {x["saldofim"]:>10,.2f}')

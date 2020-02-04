@@ -108,7 +108,7 @@ def meiossaldo(listameios, listameiossaldo, mestrabalho, anotrabalho):
         if opcao == 1:
             codmeio = leiameio('Digite código do meio: ', listameios)
             saldomeio = leiafloat('Digite o saldo do meio: ')
-            registro = {'cod': codmeio, 'saldo': saldomeio, 'mes': mestrabalho, 'ano': anotrabalho}
+            registro = {'cod': codmeio, 'saldo': saldomeio, 'mes': mestrabalho, 'ano': anotrabalho, 'saldofim': 0}
             listameiossaldo.append(registro.copy())
             print(f'{espacos(50)}REGISTRO INSERIDO')
             aguardaenter()

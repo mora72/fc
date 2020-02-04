@@ -6,6 +6,7 @@ from lib.menusetup import *
 from lib.menutransacoes import *
 from lib.menuresumos import *
 from lib.menuinvestimentos import *
+from lib.newmonth import *
 path.append('C:/Users/carlo/PycharmProjects/fc)')
 
 arqlistameios = Arquivolista('/Users/carlo/PycharmProjects/fc/basemeios.pck1', 'Meios')
@@ -40,8 +41,9 @@ mestrabalho = mesatual
 
 while True:
     system("cls")
-    bordasup()
+    bordasup(1)
     cabecalho(f'ANO TRABALHO: {anotrabalho} - MES TRABALHO: {mestrabalho}')
+    exiberesumomeiossaldo(listameios, listameiossaldo, mestrabalho, anotrabalho)
     cabecalho('MENU PRINCIPAL')
     opcao = menu(['MENU SETUP',
                   'MENU TRANSAÇÕES',
@@ -69,8 +71,9 @@ while True:
                            'Alterar Mes e/ou Ano de Trabalho',
                            'Saldo de Contas Corrente e Dinheiro',
                            'Gasto Previsto por Tipo de Conta',
+                           'Gerar Novo Mes/Ano de Trabalho',
                            'Voltar ao Menu Principal'])
-            if opcao1 == 10:
+            if opcao1 == 11:
                 system("cls")
                 break
             if opcao1 == 1:
@@ -91,6 +94,9 @@ while True:
                 meiossaldo(listameios, listameiossaldo, mestrabalho, anotrabalho)
             if opcao1 == 9:
                 contasprevisto(listacontas, listacontasprevisto, mestrabalho, anotrabalho)
+            if opcao1 == 10:
+                mestrabalho, anotrabalho = gonewmonth(listameios, listameiossaldo, listacontaprovisaosaldo,
+                                                      listainvest, listaemprest, mestrabalho, anotrabalho)
 
     if opcao == 2:
         while True:

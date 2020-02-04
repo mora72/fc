@@ -68,16 +68,22 @@ def exibetransmeiosaldo(listatrans, listameios, listameiossaldo, mestrabalho, an
     system("cls")
     cabecalho('LANCAMENTOS E SALDO DE UM MEIO', 42, 0)
     codmeio = leiameio('Digite código do meio: ', listameios, 0)
-    saldo = 0
-    for x in listameiossaldo:
-        if x["cod"] == codmeio and x["ano"] == anotrabalho and x["mes"] == mestrabalho:
-            saldo = x["saldo"]
+    saldofim = 0
+    pos = 0
+    achou = 'N'
+    for b, y in enumerate(listameiossaldo):
+        if y["cod"] == codmeio and y["ano"] == anotrabalho and y["mes"] == mestrabalho:
+            saldofim = y["saldo"]
+            pos = b
+            achou = 'S'
             break
     for c, x in enumerate(listatrans):
-        if x["meio"] == codmeio:
-            saldo = saldo + x["valor"]
+        if x["meio"] == codmeio and x['mes'] == mestrabalho and x['ano'] == anotrabalho:
+            saldofim = saldofim + x["valor"]
             print(f'ID: {c:2} - {x["dia"]:2}/{x["mes"]:2}/{x["ano"]} - ', end='')
-            print(f'{x["valor"]:>8.2f} - {x["conta"]:<30} - {x["descr"]:<30} - {x["meio"]} - saldo: {saldo:>9.2f}')
+            print(f'{x["valor"]:>8.2f} - {x["conta"]:<30} - {x["descr"]:<30} - {x["meio"]} - saldo: {saldofim:>9.2f}')
+    if achou == 'S':
+        listameiossaldo[pos]['saldofim'] = saldofim
     aguardaenter(0)
 
 
