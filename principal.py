@@ -43,7 +43,8 @@ while True:
     system("cls")
     bordasup(1)
     cabecalho(f'ANO TRABALHO: {anotrabalho} - MES TRABALHO: {mestrabalho}')
-    exiberesumomeiossaldo(listameios, listameiossaldo, mestrabalho, anotrabalho)
+    exiberesumomeiossaldo(listameios, listameiossaldo, listacontasprevisto, listacontas, listatrans,
+                          listacontaprovisaosaldo, listainvest, mestrabalho, anotrabalho)
     cabecalho('MENU PRINCIPAL')
     opcao = menu(['MENU SETUP',
                   'MENU TRANSAÇÕES',
@@ -146,6 +147,8 @@ while True:
                 updateinvest(listainvest, mestrabalho, anotrabalho)
     if opcao == 7:
         emprestsaldo(listaemprest, mestrabalho, anotrabalho, listatrans)
+    if opcao == 8:
+        resumo_patrimonio(listameios, listameiossaldo, listainvest, listacontaprovisaosaldo, mestrabalho, anotrabalho)
 
 arqlistameios.gravar(listameios)
 arqlistameiossaldo.gravar(listameiossaldo)

@@ -5,18 +5,18 @@ from lib.interface import *
 
 def cadmeios(lista):
     system("cls")
-    cabecalho('Cadastro de Meios de Transação')
-    codmeio = input(f'{espacos()}Digite código do Meio de Transação (2 letras): ')
-    nomemeio = input(f'{espacos()}Digite o nome do Meio de Transacao: ')
+    cabecalho('Cadastro de Meios de Transação', 40, 30)
+    codmeio = input(f'{espacos(30)}Digite código do Meio de Transação (2 letras): ')
+    nomemeio = input(f'{espacos(30)}Digite o nome do Meio de Transacao: ')
     while True:
-        tipomeio = input(f'{espacos()}Digite tipo do Meio de Transação'
-                         ' (CC - Conta Corrente; DI - Dinheiro; CA - Cartão; PR - Provisão): ')
-        if tipomeio in ('CC', 'cc', 'DI', 'di', 'CA', 'ca', 'PR', 'pr'):
+        tipomeio = input(f'{espacos(30)}Digite tipo do Meio de Transação'
+                         ' (CC - Conta Corrente; DI - Dinheiro; CA - Cartão; PR - Provisão; CO - Conta Corretora): ')
+        if tipomeio in ('CC', 'cc', 'DI', 'di', 'CA', 'ca', 'PR', 'pr', 'CO', 'co'):
             break
-        print(f'{espacos()}Tipo Inválido !')
+        print(f'{espacos(30)}Tipo Inválido !')
     registromeio = {'cod': codmeio, 'nome': nomemeio, 'tipo': tipomeio}
     lista.append(registromeio.copy())
-    print(f'{espacos()}REGISTRO INSERIDO')
+    print(f'{espacos(30)}REGISTRO INSERIDO')
     aguardaenter()
 
 

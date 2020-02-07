@@ -18,7 +18,7 @@ def resumomes(listatrans, mestrabalho, anotrabalho, listacontas, listacontasprev
     for x in listatrans:
         if mestrabalho == x['mes'] and anotrabalho == x['ano']:
             pos = listaresumo.index(x['conta'])
-            listaresumo[pos+1] = listaresumo[pos+1] + x['valor']
+            listaresumo[pos+1] += x['valor']
     cabecalho('RESUMO DO MES POR CONTA', 63)
     totrecreal = 0
     totrecprev = 0
@@ -86,9 +86,136 @@ def resumomes(listatrans, mestrabalho, anotrabalho, listacontas, listacontasprev
     aguardaenter()
 
 
-def exiberesumomeiossaldo(listameios, listameiossaldo, mestrabalho, anotrabalho):
+def exiberesumomeiossaldo(listameios, listameiossaldo, listacontasprevisto, listacontas, listatrans,
+                          listacontaprovisaosaldo, listainvest, mestrabalho, anotrabalho):
     cabecalho('SALDO DE MEIOS DE PAGAMENTO')
     for x in listameiossaldo:
         if x["mes"] == mestrabalho and x["ano"] == anotrabalho:
             nomemeio = list(filter(lambda meio: meio["cod"] == x["cod"], listameios))[0]["nome"]
-            print(f'{espacos()}{x["cod"]} {nomemeio:<20} {x["saldo"]:>10,.2f} {x["saldofim"]:>10,.2f}')
+            print(f'{espacos()}{nomemeio:<20} {x["saldo"]:>10,.2f} {x["saldofim"]:>10,.2f}')
+
+    vlr_rec_prev = vlr_des_prev = 0
+    for x in listacontasprevisto:
+        if mestrabalho == x['mes'] and anotrabalho == x['ano']:
+            tipoconta = list(filter(lambda conta: conta["nome"] == x['nome'], listacontas))[0]["tipo"]
+            if tipoconta == 'R':
+                vlr_rec_prev += x['valorprevisto']
+            elif tipoconta in ('D', 'E'):
+                vlr_des_prev += x['valorprevisto']
+
+    vlr_rec_real = vlr_des_real = 0
+    for x in listatrans:
+        if mestrabalho == x['mes'] and anotrabalho == x['ano']:
+            tipoconta = list(filter(lambda conta: conta["nome"] == x['conta'], listacontas))[0]["tipo"]
+            if tipoconta == 'R':
+                vlr_rec_real += x['valor']
+            elif tipoconta in ('D', 'E'):
+                vlr_des_real += x['valor']
+    vlr_rec_delta = vlr_rec_real - vlr_rec_prev
+    vlr_des_delta = vlr_des_real - vlr_des_prev
+    vlr_real_delta = vlr_rec_real + vlr_des_real
+    vlr_prev_delta = vlr_rec_prev + vlr_des_prev
+    vlr_delta_delta = vlr_rec_delta + vlr_des_delta
+    print(linha())
+    print(f'{espacos()}{"TOTAL RECEITAS:"} {vlr_rec_real:>10,.2f} {vlr_rec_prev:>10,.2f} {vlr_rec_delta:>10,.2f}')
+    print(f'{espacos()}{"TOTAL DESPESAS:"} {vlr_des_real:>10,.2f} {vlr_des_prev:>10,.2f} {vlr_des_delta:>10,.2f}')
+    print(linha(63))
+    print(f'{espacos()}{"DELTA TOTAL...:"} {vlr_real_delta:>10,.2f} {vlr_prev_delta:>10,.2f}'
+          f' {vlr_delta_delta:>10,.2f}')
+    print(linha(63))
+
+    # PATRIMONIO
+    tot_saldo_ini = tot_saldo_fim = 0
+    tot_aposent_ini = tot_aposent_fim = 0
+    for x in listameiossaldo:
+        if x["mes"] == mestrabalho and x["ano"] == anotrabalho:
+            tipomeio = list(filter(lambda meio: meio['cod'] == x['cod'], listameios))[0]['tipo']
+            if tipomeio in ('CC', 'DI', 'CO'):
+                tot_saldo_ini += x['saldo']
+                tot_saldo_fim += x['saldofim']
+                if tipomeio == 'CO':
+                    tot_aposent_ini += x['saldo']
+                    tot_aposent_fim += x['saldofim']
+
+    for x in listainvest:
+        if x["mes"] == mestrabalho and x["ano"] == anotrabalho:
+            tot_saldo_ini += x['vlrtotini']
+            tot_saldo_fim += x['vlrtotfim']
+            if x['tipoinvest'] != 'Fundo Provisão':
+                tot_aposent_ini += x['vlrtotini']
+                tot_aposent_fim += x['vlrtotfim']
+
+    cabecalho(f'RESUMO PATRIMÔNIO - VISÃO "TIPO"')
+    saldoprovini = saldoprovfim = 0
+    for x in listacontaprovisaosaldo:
+        if x["mes"] == mestrabalho and x["ano"] == anotrabalho:
+            saldoprovini += x["saldoini"]
+            saldoprovfim += x["saldofim"]
+    saldo_capgiro_ini = tot_saldo_ini - saldoprovini - tot_aposent_ini
+    saldo_capgiro_fim = tot_saldo_fim - saldoprovfim - tot_aposent_fim
+    print(f'{espacos()}{"PATRIMONIO":<30} {"SALDO INICIAL":>14} {"SALDO FINAL":>14}')
+    print(f'{espacos()}{"Provisão":<30} {saldoprovini:>14,.2f} {saldoprovfim:>14,.2f}')
+    print(f'{espacos()}{"Capital de Giro":<30} {saldo_capgiro_ini:>14,.2f} {saldo_capgiro_fim:>14,.2f}')
+    print(f'{espacos()}{"Aposentadoria":<30} {tot_aposent_ini:>14,.2f} {tot_aposent_fim:>14,.2f}')
+    print(linha())
+    print(f'{espacos()}{"TOTAIS":<30} {tot_saldo_ini:>14,.2f} {tot_saldo_fim:>14,.2f}')
+    print(linha())
+
+
+# noinspection PyTypeChecker
+def resumo_patrimonio(listameios, listameiossaldo, listainvest, listacontaprovisaosaldo, mestrabalho, anotrabalho):
+    system("cls")
+    cabecalho('RESUMO PATRIMÔNIO - VISÃO "LOCAL"')
+    locais_saldo = {'Conta Corrente + Dinheiro': {'saldoini': 0, 'saldofim': 0},
+                    'Conta Corretora': {'saldoini': 0, 'saldofim': 0}}
+    tot_saldo_ini = tot_saldo_fim = 0
+    tot_aposent_ini = tot_aposent_fim = 0
+    for x in listameiossaldo:
+        if x["mes"] == mestrabalho and x["ano"] == anotrabalho:
+            tipomeio = list(filter(lambda meio: meio['cod'] == x['cod'], listameios))[0]['tipo']
+            if tipomeio in ('CC', 'DI'):
+                locais_saldo['Conta Corrente + Dinheiro']['saldoini'] += x['saldo']
+                locais_saldo['Conta Corrente + Dinheiro']['saldofim'] += x['saldofim']
+            elif tipomeio == 'CO':
+                locais_saldo['Conta Corretora']['saldoini'] += x['saldo']
+                locais_saldo['Conta Corretora']['saldofim'] += x['saldofim']
+                tot_aposent_ini += x['saldo']
+                tot_aposent_fim += x['saldofim']
+
+    for x in listainvest:
+        if x["mes"] == mestrabalho and x["ano"] == anotrabalho:
+            if x['tipoinvest'] not in locais_saldo.keys():
+                locais_saldo[x['tipoinvest']] = {'saldoini': x['vlrtotini'], 'saldofim': x['vlrtotfim']}
+            else:
+                locais_saldo[x['tipoinvest']]['saldoini'] += x['vlrtotini']
+                locais_saldo[x['tipoinvest']]['saldofim'] += x['vlrtotfim']
+            if x['tipoinvest'] != 'Fundo Provisão':
+                tot_aposent_ini += x['vlrtotini']
+                tot_aposent_fim += x['vlrtotfim']
+
+    print(f'{espacos()}{"PATRIMONIO":<30} {"SALDO INICIAL":>14} {"SALDO FINAL":>14}')
+    for local, saldo in locais_saldo.items():
+        print(f'{espacos()}{local:<30} {saldo["saldoini"]:>14,.2f} {saldo["saldofim"]:>14,.2f}')
+        tot_saldo_ini += saldo['saldoini']
+        tot_saldo_fim += saldo['saldofim']
+    print(linha())
+    print(f'{espacos()}{"TOTAIS":<30} {tot_saldo_ini:>14,.2f} {tot_saldo_fim:>14,.2f}')
+    print(linha())
+    print()
+
+    cabecalho(f'RESUMO PATRIMÔNIO - VISÃO "TIPO"')
+    saldoprovini = saldoprovfim = 0
+    for x in listacontaprovisaosaldo:
+        if x["mes"] == mestrabalho and x["ano"] == anotrabalho:
+            saldoprovini += x["saldoini"]
+            saldoprovfim += x["saldofim"]
+    saldo_capgiro_ini = tot_saldo_ini - saldoprovini - tot_aposent_ini
+    saldo_capgiro_fim = tot_saldo_fim - saldoprovfim - tot_aposent_fim
+    print(f'{espacos()}{"PATRIMONIO":<30} {"SALDO INICIAL":>14} {"SALDO FINAL":>14}')
+    print(f'{espacos()}{"Provisão":<30} {saldoprovini:>14,.2f} {saldoprovfim:>14,.2f}')
+    print(f'{espacos()}{"Capital de Giro":<30} {saldo_capgiro_ini:>14,.2f} {saldo_capgiro_fim:>14,.2f}')
+    print(f'{espacos()}{"Aposentadoria":<30} {tot_aposent_ini:>14,.2f} {tot_aposent_fim:>14,.2f}')
+    print(linha())
+    print(f'{espacos()}{"TOTAIS":<30} {tot_saldo_ini:>14,.2f} {tot_saldo_fim:>14,.2f}')
+    print(linha())
+    aguardaenter()
