@@ -42,23 +42,15 @@ mestrabalho = mesatual
 while True:
     system("cls")
     bordasup(1)
-    cabecalho(f'ANO TRABALHO: {anotrabalho} - MES TRABALHO: {mestrabalho}')
+    cabecalho(f'                                                          GESTÃO  DE  FINANÇAS  PESSOAIS'
+              f'                                                        {mestrabalho}/{anotrabalho}', 172, 0)
     exiberesumomeiossaldo(listameios, listameiossaldo, listacontasprevisto, listacontas, listatrans,
                           listacontaprovisaosaldo, listainvest, mestrabalho, anotrabalho)
-    cabecalho('MENU PRINCIPAL')
-    opcao = menu(['MENU SETUP',
-                  'MENU TRANSAÇÕES',
-                  'Resumo do Mês',
-                  'Verificações',
-                  'Provisões',
-                  'Investimentos',
-                  'Empréstimos',
-                  'Resumo Patrimonial (local e tipo)',
-                  'Sair'])
-    if opcao == 9:
+    opcao = main_menu()
+    if opcao == 'F':
         system("cls")
         break
-    if opcao == 1:
+    if opcao == 'S':
         while True:
             system("cls")
             cabecalho(f'ANO TRABALHO: {anotrabalho} - MES TRABALHO: {mestrabalho}')
@@ -99,7 +91,7 @@ while True:
                 mestrabalho, anotrabalho = gonewmonth(listameios, listameiossaldo, listacontaprovisaosaldo,
                                                       listainvest, listaemprest, mestrabalho, anotrabalho)
 
-    if opcao == 2:
+    if opcao == 'T':
         while True:
             system("cls")
             cabecalho(f'ANO TRABALHO: {anotrabalho} - MES TRABALHO: {mestrabalho}')
@@ -120,11 +112,11 @@ while True:
                 deletatrans(listatrans, mestrabalho, anotrabalho, listacontas)
             if opcao2 == 4:
                 exibetransmeiosaldo(listatrans, listameios, listameiossaldo, mestrabalho, anotrabalho)
-    if opcao == 3:
+    if opcao == 'A':
         resumomes(listatrans, mestrabalho, anotrabalho, listacontas, listacontasprevisto)
-    if opcao == 5:
+    if opcao == 'P':
         contaprovisaosaldo(listacontas, listacontaprovisaosaldo, mestrabalho, anotrabalho, listatrans)
-    if opcao == 6:
+    if opcao == 'I':
         while True:
             system("cls")
             cabecalho(f'ANO TRABALHO: {anotrabalho} - MES TRABALHO: {mestrabalho}')
@@ -145,9 +137,9 @@ while True:
                 deletainvest(listainvest, mestrabalho, anotrabalho)
             if opcao2 == 4:
                 updateinvest(listainvest, mestrabalho, anotrabalho)
-    if opcao == 7:
+    if opcao == 'E':
         emprestsaldo(listaemprest, mestrabalho, anotrabalho, listatrans)
-    if opcao == 8:
+    if opcao == 'B':
         resumo_patrimonio(listameios, listameiossaldo, listainvest, listacontaprovisaosaldo, mestrabalho, anotrabalho)
 
 arqlistameios.gravar(listameios)

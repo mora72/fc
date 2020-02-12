@@ -36,6 +36,15 @@ def menu(lista, bordae=50):
     return op
 
 
+def main_menu():
+    bordasup(3)
+    print(linha(172, 0))
+    print('                    [S]ETUP       [T]RANSAÇÕES       [A]NALYTICS       [P]ROVISÕES       [I]NVESTIMENTOS    '
+          '   [E]MPRÉSTIMOS       [F]IM       OPÇÃO:', end='')
+    op = input('').upper()
+    return op
+
+
 def leiaint(msg, borda=50):
     while True:
         try:

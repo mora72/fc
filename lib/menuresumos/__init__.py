@@ -88,12 +88,20 @@ def resumomes(listatrans, mestrabalho, anotrabalho, listacontas, listacontasprev
 
 def exiberesumomeiossaldo(listameios, listameiossaldo, listacontasprevisto, listacontas, listatrans,
                           listacontaprovisaosaldo, listainvest, mestrabalho, anotrabalho):
-    cabecalho('SALDO DE MEIOS DE PAGAMENTO')
+    tam = 57
+    borda = 55
+    bordasup(2)
+    cabecalho('SALDO DE MEIOS DE PAGAMENTO', tam, borda)
+    print(f'{espacos(borda)}{" ":<25} {"SALDO INICIAL":>15} {"SALDO FINAL":>15}')
     for x in listameiossaldo:
         if x["mes"] == mestrabalho and x["ano"] == anotrabalho:
             nomemeio = list(filter(lambda meio: meio["cod"] == x["cod"], listameios))[0]["nome"]
-            print(f'{espacos()}{nomemeio:<20} {x["saldo"]:>10,.2f} {x["saldofim"]:>10,.2f}')
+            print(f'{espacos(borda)}{nomemeio:<25} {x["saldo"]:>15,.2f} {x["saldofim"]:>15,.2f}')
+    bordasup(1)
+    print(linha(tam, borda))
+    bordasup(2)
 
+    cabecalho(f'RESULTADO DO MÊS', tam, borda)
     vlr_rec_prev = vlr_des_prev = 0
     for x in listacontasprevisto:
         if mestrabalho == x['mes'] and anotrabalho == x['ano']:
@@ -116,15 +124,21 @@ def exiberesumomeiossaldo(listameios, listameiossaldo, listacontasprevisto, list
     vlr_real_delta = vlr_rec_real + vlr_des_real
     vlr_prev_delta = vlr_rec_prev + vlr_des_prev
     vlr_delta_delta = vlr_rec_delta + vlr_des_delta
-    print(linha())
-    print(f'{espacos()}{"TOTAL RECEITAS:"} {vlr_rec_real:>10,.2f} {vlr_rec_prev:>10,.2f} {vlr_rec_delta:>10,.2f}')
-    print(f'{espacos()}{"TOTAL DESPESAS:"} {vlr_des_real:>10,.2f} {vlr_des_prev:>10,.2f} {vlr_des_delta:>10,.2f}')
-    print(linha(63))
-    print(f'{espacos()}{"DELTA TOTAL...:"} {vlr_real_delta:>10,.2f} {vlr_prev_delta:>10,.2f}'
-          f' {vlr_delta_delta:>10,.2f}')
-    print(linha(63))
 
-    # PATRIMONIO
+    print(f'{espacos(borda)}{"                 "} {"REALIZADO":>12} {"PREVISTO":>12} {"DELTA":>12}')
+    print(f'{espacos(borda)}{"RECEITAS:         "} {vlr_rec_real:>12,.2f} {vlr_rec_prev:>12,.2f} '
+          f'{vlr_rec_delta:>12,.2f}')
+    print(f'{espacos(borda)}{"DESPESAS:         "} {vlr_des_real:>12,.2f} {vlr_des_prev:>12,.2f} '
+          f'{vlr_des_delta:>12,.2f}')
+    print(linha(tam, borda))
+    print(f'{espacos(borda)}{"RESULTADO LÍQUIDO:"} {vlr_real_delta:>12,.2f} {vlr_prev_delta:>12,.2f}'
+          f' {vlr_delta_delta:>12,.2f}')
+    bordasup(1)
+    print(linha(tam, borda))
+    bordasup(2)
+
+    cabecalho(f'RESUMO PATRIMONIAL', tam, borda)
+    bordasup(1)
     tot_saldo_ini = tot_saldo_fim = 0
     tot_aposent_ini = tot_aposent_fim = 0
     for x in listameiossaldo:
@@ -145,7 +159,6 @@ def exiberesumomeiossaldo(listameios, listameiossaldo, listacontasprevisto, list
                 tot_aposent_ini += x['vlrtotini']
                 tot_aposent_fim += x['vlrtotfim']
 
-    cabecalho(f'RESUMO PATRIMÔNIO - VISÃO "TIPO"')
     saldoprovini = saldoprovfim = 0
     for x in listacontaprovisaosaldo:
         if x["mes"] == mestrabalho and x["ano"] == anotrabalho:
@@ -153,13 +166,13 @@ def exiberesumomeiossaldo(listameios, listameiossaldo, listacontasprevisto, list
             saldoprovfim += x["saldofim"]
     saldo_capgiro_ini = tot_saldo_ini - saldoprovini - tot_aposent_ini
     saldo_capgiro_fim = tot_saldo_fim - saldoprovfim - tot_aposent_fim
-    print(f'{espacos()}{"PATRIMONIO":<30} {"SALDO INICIAL":>14} {"SALDO FINAL":>14}')
-    print(f'{espacos()}{"Provisão":<30} {saldoprovini:>14,.2f} {saldoprovfim:>14,.2f}')
-    print(f'{espacos()}{"Capital de Giro":<30} {saldo_capgiro_ini:>14,.2f} {saldo_capgiro_fim:>14,.2f}')
-    print(f'{espacos()}{"Aposentadoria":<30} {tot_aposent_ini:>14,.2f} {tot_aposent_fim:>14,.2f}')
-    print(linha())
-    print(f'{espacos()}{"TOTAIS":<30} {tot_saldo_ini:>14,.2f} {tot_saldo_fim:>14,.2f}')
-    print(linha())
+    print(f'{espacos(borda)}{" ":<27} {"SALDO INICIAL":>14} {"SALDO FINAL":>14}')
+    print(f'{espacos(borda)}{"Provisão":<27} {saldoprovini:>14,.2f} {saldoprovfim:>14,.2f}')
+    print(f'{espacos(borda)}{"Capital de Giro":<27} {saldo_capgiro_ini:>14,.2f} {saldo_capgiro_fim:>14,.2f}')
+    print(f'{espacos(borda)}{"Aposentadoria":<27} {tot_aposent_ini:>14,.2f} {tot_aposent_fim:>14,.2f}')
+    print(linha(tam, borda))
+    print(f'{espacos(borda)}{"TOTAIS":<27} {tot_saldo_ini:>14,.2f} {tot_saldo_fim:>14,.2f}')
+    print(linha(tam, borda))
 
 
 # noinspection PyTypeChecker
