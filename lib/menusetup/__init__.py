@@ -102,7 +102,7 @@ def meiossaldo(listameios, listameiossaldo, mestrabalho, anotrabalho):
         cabecalho('SALDO DE CONTAS CORRENTE')
         for x in listameiossaldo:
             if x["mes"] == mestrabalho and x["ano"] == anotrabalho:
-                print(f'{espacos()}{x["cod"]} - {x["saldo"]:>10,.2f}')
+                print(f'{espacos()}{x["cod"]} - {x["saldo"]:>10,.2f} - {x["saldofim"]:>10,.2f}')
         print(linha())
         opcao = leiaint('Digite 1 - Cadastrar; 2 - Deletar ou 9 - Sair: ')
         if opcao == 1:

@@ -153,3 +153,30 @@ def leiameio(msg, listameios, borda=50):
                     print(f'{espacos(borda)}{x["cod"]} - {x["nome"]}')
                 aguardaenter()
     return meio
+
+
+def leiaemprestimo(msg, listaemprest,  mes, ano, borda=50):
+    while True:
+        emprest = input(f'{espacos(borda)}{msg}')
+        achou = False
+        for x in listaemprest:
+            if emprest == x['nome']:
+                achou = True
+                break
+        if achou:
+            break
+        else:
+            print(f'{espacos(borda)}Empréstimo não encontrado !')
+            opcao = input(f'{espacos(borda)}Digite Enter para informar novamente ou 9 para ver lista de empréstimos: ')
+            if opcao == '9':
+                exibeemprestimos(listaemprest, mes, ano)
+    return emprest
+
+
+def exibeemprestimos(lista, mes, ano):
+    cabecalho('LISTA DE EMPRÉSTIMOS CADASTRADOS')
+    listaord = sorted(lista, key=lambda i: (i['nome']))
+    for x in listaord:
+        if x["mes"] == mes and x["ano"] == ano:
+            print(f'{espacos(50)}{x["nome"]:<30}')
+    aguardaenter()

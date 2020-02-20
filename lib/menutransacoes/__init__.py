@@ -1,13 +1,16 @@
 # Funções do Menu TRANSACOES
 # from os import system
 from lib.interface import *
+import random
 
 
-def lanctrans(lista, anotrabalho, mestrabalho, listameios, listacontas):
+def lanctrans(lista, anotrabalho, mestrabalho, listameios, listacontas, listaemprest, listameiossaldo):
     system("cls")
     cabecalho(f'ANO TRABALHO: {anotrabalho} - MES TRABALHO: {mestrabalho}')
     cabecalho('Lançamento de Transações')
     meiotrans = leiameio('Digite o meio desta transação: ', listameios)
+    saldofim = ler_saldo_fim_meio(listameiossaldo, meiotrans, mestrabalho, anotrabalho)
+    print(f'{espacos(50)}Saldo Atual do Meio: {saldofim:>10,.2f}')
     while True:
         nomeemprest = ''
         cabecalho(f'NOVO REGISTRO DO MEIO: {meiotrans}')
@@ -18,14 +21,15 @@ def lanctrans(lista, anotrabalho, mestrabalho, listameios, listacontas):
         if descrtrans == '':
             descrtrans = contatrans
         if contatrans == 'Empréstimo':
-            nomeemprest = input(f'{espacos(50)}Digite o nome do Empréstimo: ')
+            nomeemprest = leiaemprestimo('Digite o nome do Empréstimo: ', listaemprest, mestrabalho, anotrabalho)
         cabecalho('CONFIRMA REGISTRO ? ')
         print(f'{espacos(50)}data...: {diatrans:2}/{mestrabalho:2}/{anotrabalho}')
         print(f'{espacos(50)}meio..: {meiotrans}')
         print(f'{espacos(50)}conta.: {contatrans}')
         print(f'{espacos(50)}valor.: {valortrans}')
         print(f'{espacos(50)}descrição...: {descrtrans}')
-        print(f'{espacos(50)}empréstimo...: {nomeemprest}')
+        if contatrans == 'Empréstimo':
+            print(f'{espacos(50)}empréstimo...: {nomeemprest}')
         opcao = input(f'{espacos(50)}Sim (S) ou Não (N) ? ')
         if opcao in 'Ss':
             registrotrans = {'ano': anotrabalho,
@@ -37,9 +41,42 @@ def lanctrans(lista, anotrabalho, mestrabalho, listameios, listacontas):
                              'meio': meiotrans,
                              'nomeemprest': nomeemprest}
             lista.append(registrotrans.copy())
+            saldofim += valortrans
+            grava_saldo_fim_meio(listameiossaldo, meiotrans, mestrabalho, anotrabalho, saldofim)
+            print(f'{espacos(50)}Saldo Final do Meio {meiotrans}: {saldofim}')
             print(f'{espacos(50)}REGISTRO INSERIDO')
+            if contatrans == 'Empréstimo':
+                registrotrans = {'ano': anotrabalho,
+                                 'mes': mestrabalho,
+                                 'dia': diatrans,
+                                 'valor': valortrans * -1,
+                                 'conta': contatrans,
+                                 'descr': descrtrans,
+                                 'meio': 'PR',
+                                 'nomeemprest': 'Provisão'
+                                 }
+                lista.append(registrotrans.copy())
+                saldofim += valortrans * -1
+                grava_saldo_fim_meio(listameiossaldo, meiotrans, mestrabalho, anotrabalho, saldofim)
+                print(f'{espacos(50)}Saldo Final do Meio {meiotrans}: {saldofim}')
+                print(f'{espacos(50)}REGISTRO PROVISÃO - EMPRESTIMO INSERIDO')
         opcao = input(f'{espacos(50)}Lançar outra transação? Sim (S) ou Não (N) ? ')
         if opcao in 'Nn':
+            break
+
+
+def ler_saldo_fim_meio(listameiossaldo, meio, mes, ano):
+    saldofim = 0
+    for x in listameiossaldo:
+        if x["mes"] == mes and x["ano"] == ano and x['cod'] == meio:
+            saldofim = x["saldofim"]
+    return saldofim
+
+
+def grava_saldo_fim_meio(listameiossaldo, meio, mes, ano, saldofim):
+    for x in listameiossaldo:
+        if x["mes"] == mes and x["ano"] == ano and x['cod'] == meio:
+            x["saldofim"] = saldofim
             break
 
 
@@ -87,18 +124,26 @@ def exibetransmeiosaldo(listatrans, listameios, listameiossaldo, mestrabalho, an
     aguardaenter(0)
 
 
-def deletatrans(lista, mes, ano, listacontas):
-    exibetrans(lista, mes, ano, listacontas)
+def deletatrans(listatrans, mes, ano, listacontas, listameiossaldo):
+    exibetrans(listatrans, mes, ano, listacontas)
     cabecalho('Deletar Meio de Transação Financeira')
     while True:
         idtransacao = leiaint('Digite ID da Transação que deseja deletar ou -1 para desistir: ', 0)
-        if -1 <= idtransacao <= len(lista) - 1:
+        if -1 <= idtransacao <= len(listatrans) - 1:
             break
         else:
             print(f'ID Inválido !')
     if idtransacao >= 0:
+        vlrtrans = listatrans[idtransacao]['valor']
+        meiotrans = listatrans[idtransacao]['meio']
+
+        saldofim = ler_saldo_fim_meio(listameiossaldo, meiotrans, mes, ano)
+        print(f'Saldo Inicial do Meio {meiotrans}: {saldofim}')
+        saldofim -= vlrtrans
+        print(f'Saldo Final do Meio {meiotrans}: {saldofim}')
+        grava_saldo_fim_meio(listameiossaldo, meiotrans, mes, ano, saldofim)
+        del listatrans[idtransacao]
         print(f'ID DELETADO !')
-        del lista[idtransacao]
     else:
         print(f'Deleção CANCELADA !')
     aguardaenter()
