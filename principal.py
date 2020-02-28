@@ -7,6 +7,10 @@ from lib.menutransacoes import *
 from lib.menuresumos import *
 from lib.menuinvestimentos import *
 from lib.newmonth import *
+import locale
+
+
+locale.setlocale(locale.LC_ALL, 'pt_BR.UTF-8')
 path.append('C:/Users/carlo/PycharmProjects/fc)')
 
 arqlistameios = Arquivolista('/Users/carlo/PycharmProjects/fc/basemeios.pck1', 'Meios')
@@ -92,26 +96,31 @@ while True:
                                                       listainvest, listaemprest, mestrabalho, anotrabalho)
 
     if opcao == 'T':
-        while True:
-            system("cls")
-            cabecalho(f'ANO TRABALHO: {anotrabalho} - MES TRABALHO: {mestrabalho}')
-            cabecalho('MENU TRANSAÇÕES')
-            opcao2 = menu(['Lançamento de Transações - Bancos, Dinheiro, Cartões',
-                           'Listar Transações',
-                           'Deletar Transações',
-                           'Saldo do Meio',
-                           'Voltar ao Menu Principal'])
-            if opcao2 == 5:
-                system("cls")
-                break
-            if opcao2 == 1:
-                lanctrans(listatrans, anotrabalho, mestrabalho, listameios, listacontas, listaemprest, listameiossaldo)
-            if opcao2 == 2:
-                exibetrans(listatrans, mestrabalho, anotrabalho, listacontas)
-            if opcao2 == 3:
-                deletatrans(listatrans, mestrabalho, anotrabalho, listacontas, listameiossaldo)
-            if opcao2 == 4:
-                exibetransmeiosaldo(listatrans, listameios, listameiossaldo, mestrabalho, anotrabalho)
+        trans(listatrans, mestrabalho, anotrabalho, listacontas, listameiossaldo, listameios, listaemprest)
+        # while True:
+        #     system("cls")
+        #     cabecalho(f'ANO TRABALHO: {anotrabalho} - MES TRABALHO: {mestrabalho}')
+        #     cabecalho('MENU TRANSAÇÕES')
+        #     opcao2 = menu(['Lançamento de Transações - Bancos, Dinheiro, Cartões',
+        #                    'Listar Transações',
+        #                    'Deletar Transações',
+        #                    'Saldo do Meio',
+        #                    'Novo Trans',
+        #                    'Voltar ao Menu Principal'])
+        #     if opcao2 == 6:
+        #         system("cls")
+        #        break
+        #     if opcao2 == 1:
+        #         lanctrans(listatrans, anotrabalho, mestrabalho, listameios, listacontas, listaemprest,
+        #         listameiossaldo)
+        #     if opcao2 == 2:
+        #         exibetrans(listatrans, mestrabalho, anotrabalho, listacontas)
+        #     if opcao2 == 3:
+        #         deletatrans(listatrans, mestrabalho, anotrabalho, listacontas, listameiossaldo)
+        #     if opcao2 == 4:
+        #         exibetransmeiosaldo(listatrans, listameios, listameiossaldo, mestrabalho, anotrabalho)
+        #     if opcao2 == 5:
+        #         trans(listatrans, mestrabalho, anotrabalho, listacontas, listameiossaldo, listameios, listaemprest)
     if opcao == 'A':
         resumomes(listatrans, mestrabalho, anotrabalho, listacontas, listacontasprevisto)
     if opcao == 'P':

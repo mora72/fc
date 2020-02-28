@@ -1,4 +1,5 @@
 from lib.interface import *
+import locale
 
 
 def resumomes(listatrans, mestrabalho, anotrabalho, listacontas, listacontasprevisto):
@@ -88,6 +89,7 @@ def resumomes(listatrans, mestrabalho, anotrabalho, listacontas, listacontasprev
 
 def exiberesumomeiossaldo(listameios, listameiossaldo, listacontasprevisto, listacontas, listatrans,
                           listacontaprovisaosaldo, listainvest, mestrabalho, anotrabalho):
+    locale.setlocale(locale.LC_ALL, 'pt_BR.UTF-8')
     tam = 57
     borda = 55
     bordasup(2)
@@ -96,7 +98,8 @@ def exiberesumomeiossaldo(listameios, listameiossaldo, listacontasprevisto, list
     for x in listameiossaldo:
         if x["mes"] == mestrabalho and x["ano"] == anotrabalho:
             nomemeio = list(filter(lambda meio: meio["cod"] == x["cod"], listameios))[0]["nome"]
-            print(f'{espacos(borda)}{nomemeio:<25} {x["saldo"]:>15,.2f} {x["saldofim"]:>15,.2f}')
+            print(f'{espacos(borda)}{nomemeio:<25} {locale.format_string("%15.2f", x["saldo"], grouping=True)} '
+                  f'{locale.format_string("%15.2f", x["saldofim"], grouping=True)}')
     bordasup(1)
     print(linha(tam, borda))
     bordasup(2)

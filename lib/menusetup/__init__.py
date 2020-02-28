@@ -6,7 +6,7 @@ from lib.interface import *
 def cadmeios(lista):
     system("cls")
     cabecalho('Cadastro de Meios de Transação', 40, 30)
-    codmeio = input(f'{espacos(30)}Digite código do Meio de Transação (2 letras): ')
+    codmeio = input(f'{espacos(30)}Digite código do Meio de Transação (2 letras): ').upper()
     nomemeio = input(f'{espacos(30)}Digite o nome do Meio de Transacao: ')
     while True:
         tipomeio = input(f'{espacos(30)}Digite tipo do Meio de Transação'

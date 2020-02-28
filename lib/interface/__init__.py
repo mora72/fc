@@ -116,7 +116,7 @@ def e_bisexto(ano):
 
 def leiadia(msg, mes, ano, borda=50):
     while True:
-        dia = leiaint(msg)
+        dia = leiaint(msg, borda)
         if mes in (1, 3, 5, 7, 8, 10, 12):
             qtdedias = 31
         elif mes == 2:
@@ -135,10 +135,10 @@ def leiadia(msg, mes, ano, borda=50):
 
 def leiameio(msg, listameios, borda=50):
     while True:
-        meio = input(f'{espacos(borda)}{msg}')
+        meio = input(f'{espacos(borda)}{msg}').upper()
         achou = False
         for x in listameios:
-            if meio == x['cod']:
+            if meio == x['cod'] or meio == '*':
                 achou = True
                 break
         if achou:
