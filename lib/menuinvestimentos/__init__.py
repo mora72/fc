@@ -113,3 +113,57 @@ def updateinvest(lista, mes, ano):
             print(f'{espacos()}Alteração FINALIZADA !')
             aguardaenter()
             break
+
+
+def exibeinvestnew(listainvest, mes, ano, tipoinvest=''):
+    system("cls")
+    if tipoinvest != '*':
+        textocab = f'INVESTIMENTOS - {tipoinvest}'
+    else:
+        textocab = f'TODOS OS INVESTIMENTOS DO MÊS'
+    margem = 3
+    cabecalho(textocab, 160, margem)
+    vlrtotini = 0
+    vlrtotfim = 0
+    for c, x in enumerate(listainvest):
+        if x["mes"] == mes and x["ano"] == ano and (x["tipoinvest"] == tipoinvest or tipoinvest == '*'):
+            if x["tipoinvest"] != 'Fundo Provisão':
+                vlrtotini += x["vlrtotini"]
+                vlrtotfim += x["vlrtotfim"]
+            print(f'{espacos(margem)}ID: {c:3} - {x["diainiinvest"]:2}/{x["mesiniinvest"]:2}/{x["anoiniinvest"]} '
+                  f'{x["tipoinvest"]:<30} {x["nomeinvest"]:<50} '
+                  f'{x["vlruniini"]:>10,.2f} {x["qtdeini"]:>6,} {x["vlrtotini"]:>10,.2f} '
+                  f'{x["vlrunifim"]:>10,.2f} {x["qtdefim"]:>6,} {x["vlrtotfim"]:>10,.2f} ')
+    print(linha(160, margem))
+    print(f'{espacos(margem)}VALOR TOTAL INICIAL.: {vlrtotini:>10,.2f}')
+    print(f'{espacos(margem)}VALOR TOTAL FINAL...: {vlrtotfim:>10,.2f}')
+    print(linha(160, margem))
+
+
+def invest(listainvest, mes, ano):
+    system("cls")
+    margem = 3
+    cabecalho('GERENCIAR INVESTIMENTOS', 42, margem)
+    tipoinvest = input(f'{espacos(margem)}Tipo do investimento ou * : ')
+    while True:
+        system("cls")
+        exibeinvestnew(listainvest, mes, ano, tipoinvest)
+        opcao = leiaint(' 1-Novo    2-Deletar    3-Trocar Tipo   4-Alterar Saldo    9-Sair: ', margem)
+        if opcao == 1:
+            bordasup(3)
+            if tipoinvest == "*":
+                tipoinvest = input(f'{espacos(margem)}Tipo do investimento: ')
+                cabecalho(f' NOVA TRANSAÇÃO - {tipoinvest}', 46, margem)
+        if opcao == 2:
+            bordasup(3)
+            cabecalho('Deletar Investimento', 42, margem)
+            while True:
+                idtransacao = leiaint('ID do Investimento ou -1 para desistir: ', margem)
+                if -1 <= idtransacao <= len(listainvest) - 1:
+                    break
+                else:
+                    print(f'{espacos(margem)}ID Inválido !')
+            if idtransacao >= 0:
+                del listainvest[idtransacao]
+        elif opcao == 9:
+            break

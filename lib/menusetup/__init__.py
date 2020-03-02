@@ -89,11 +89,13 @@ def deletaconta(lista):
 def alteramesanotrabalho():
     system("cls")
     cabecalho('Alteração do Ano e/ou Mes de Trabalho')
-    ano = leiaint('Digite ano de trabalho: ')
     mes = leiaint('Digite mes de trabalho: ')
+    ano = leiaint('Digite ano de trabalho: ')
+    basemesano = list()
+    basemesano.append({'mes': mes, 'ano': ano})
     print(f'{espacos()}OK. Alterado.')
     aguardaenter()
-    return ano, mes
+    return ano, mes, basemesano
 
 
 def meiossaldo(listameios, listameiossaldo, mestrabalho, anotrabalho):

@@ -38,10 +38,18 @@ listainvest = arqlistainvest.ler()
 arqlistaemprest = Arquivolista('/Users/carlo/PycharmProjects/fc/baseemprest.pck1', 'Emprestimos')
 listaemprest = arqlistaemprest.ler()
 
-anoatual = date.today().year
+basemesano = Arquivolista('/Users/carlo/PycharmProjects/fc/basemesano.pck1', 'MesAno').ler()
+
 mesatual = date.today().month
-anotrabalho = anoatual
-mestrabalho = mesatual
+anoatual = date.today().year
+
+if len(basemesano) == 0:
+    mestrabalho = mesatual
+    anotrabalho = anoatual
+    basemesano.append({'mes': mesatual, 'ano': anoatual})
+else:
+    mestrabalho = basemesano[0]['mes']
+    anotrabalho = basemesano[0]['ano']
 
 while True:
     system("cls")
@@ -86,7 +94,7 @@ while True:
             if opcao1 == 6:
                 deletaconta(listacontas)
             if opcao1 == 7:
-                anotrabalho, mestrabalho = alteramesanotrabalho()
+                anotrabalho, mestrabalho, basemesano = alteramesanotrabalho()
             if opcao1 == 8:
                 meiossaldo(listameios, listameiossaldo, mestrabalho, anotrabalho)
             if opcao1 == 9:
@@ -134,8 +142,9 @@ while True:
                            'Listar Investimentos',
                            'Deletar Investimentos',
                            'Alterar saldo final de Investimento',
+                           'Gerenciar Investimentos',
                            'Voltar ao Menu Principal'])
-            if opcao2 == 5:
+            if opcao2 == 6:
                 system("cls")
                 break
             if opcao2 == 1:
@@ -146,6 +155,8 @@ while True:
                 deletainvest(listainvest, mestrabalho, anotrabalho)
             if opcao2 == 4:
                 updateinvest(listainvest, mestrabalho, anotrabalho)
+            if opcao2 == 5:
+                invest(listainvest, mestrabalho, anotrabalho)
     if opcao == 'E':
         emprestsaldo(listaemprest, mestrabalho, anotrabalho, listatrans)
     if opcao == 'B':
@@ -159,3 +170,4 @@ arqlistacontaprovisaosaldo.gravar(listacontaprovisaosaldo)
 arqlistatrans.gravar(listatrans)
 arqlistainvest.gravar(listainvest)
 arqlistaemprest.gravar(listaemprest)
+Arquivolista('/Users/carlo/PycharmProjects/fc/basemesano.pck1', 'MesAno').gravar(basemesano)

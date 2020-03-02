@@ -247,7 +247,6 @@ def trans(listatrans, mes, ano, listacontas, listameiossaldo, listameios, listae
                     break
                 else:
                     print(f' ID Inválido !')
-                    aguardaenter()
             if idtransacao >= 0:
                 vlrtrans = listatrans[idtransacao]['valor']
                 meiotrans = listatrans[idtransacao]['meio']
