@@ -163,7 +163,7 @@ def exibetransmeio(listatrans, mes, ano, meiotrans, listameiossaldo, listameios)
             if y["cod"] == meiotrans and y["ano"] == ano and y["mes"] == mes:
                 saldofim = y["saldo"]
                 break
-    print(f'   ID {"DATA":^10} {"VALOR":>10} {"CONTA":<25} {"DESCRIÇÃO":<50} {"MEIO PGTO":<16} '
+    print(f'   ID {"DATA":^10} {"VALOR":>11} {"CONTA":<25} {"DESCRIÇÃO":<50} {"MEIO PGTO":<16} '
           f'{"EMPRESTIMO":<15} {"SALDO MEIO"}')
     print(linha(150, 0))
     nomemeio = nomemeio.lower()
@@ -180,9 +180,9 @@ def exibetransmeio(listatrans, mes, ano, meiotrans, listameiossaldo, listameios)
                 descr = x['descr'][:50]
             else:
                 descr = x['descr']
-            print(f' {c:4} {x["dia"]:2}/{x["mes"]:2}/{x["ano"]} {x["valor"]:>10,.2f} '
+            print(f' {c:4} {x["dia"]:2}/{x["mes"]:2}/{x["ano"]} {x["valor"]:>11,.2f} '
                   f'{x["conta"]:<25} {descr:<50} {nomemeio:<16} {nomeemprest:<15} '
-                  f'{saldofim:>10.2f}')
+                  f'{saldofim:>10,.2f}')
     return saldofim
 
 

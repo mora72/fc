@@ -101,7 +101,8 @@ while True:
                 contasprevisto(listacontas, listacontasprevisto, mestrabalho, anotrabalho)
             if opcao1 == 10:
                 mestrabalho, anotrabalho = gonewmonth(listameios, listameiossaldo, listacontaprovisaosaldo,
-                                                      listainvest, listaemprest, mestrabalho, anotrabalho)
+                                                      listainvest, listaemprest, listacontasprevisto, mestrabalho,
+                                                      anotrabalho)
 
     if opcao == 'T':
         trans(listatrans, mestrabalho, anotrabalho, listacontas, listameiossaldo, listameios, listaemprest)
@@ -134,29 +135,30 @@ while True:
     if opcao == 'P':
         contaprovisaosaldo(listacontas, listacontaprovisaosaldo, mestrabalho, anotrabalho, listatrans)
     if opcao == 'I':
-        while True:
-            system("cls")
-            cabecalho(f'ANO TRABALHO: {anotrabalho} - MES TRABALHO: {mestrabalho}')
-            cabecalho('MENU INVESTIMENTOS')
-            opcao2 = menu(['Lançamento de novos Investimentos',
-                           'Listar Investimentos',
-                           'Deletar Investimentos',
-                           'Alterar saldo final de Investimento',
-                           'Gerenciar Investimentos',
-                           'Voltar ao Menu Principal'])
-            if opcao2 == 6:
-                system("cls")
-                break
-            if opcao2 == 1:
-                newinvest(listainvest, mestrabalho, anotrabalho)
-            if opcao2 == 2:
-                exibeinvest(listainvest, mestrabalho, anotrabalho)
-            if opcao2 == 3:
-                deletainvest(listainvest, mestrabalho, anotrabalho)
-            if opcao2 == 4:
-                updateinvest(listainvest, mestrabalho, anotrabalho)
-            if opcao2 == 5:
-                invest(listainvest, mestrabalho, anotrabalho)
+        invest(listainvest, mestrabalho, anotrabalho)
+        # while True:
+        #    system("cls")
+        #    cabecalho(f'ANO TRABALHO: {anotrabalho} - MES TRABALHO: {mestrabalho}')
+        #    cabecalho('MENU INVESTIMENTOS')
+        #    opcao2 = menu(['Lançamento de novos Investimentos',
+        #                   'Listar Investimentos',
+        #                   'Deletar Investimentos',
+        #                   'Alterar saldo final de Investimento',
+        #                   'Gerenciar Investimentos',
+        #                   'Voltar ao Menu Principal'])
+        #    if opcao2 == 6:
+        #        system("cls")
+        #        break
+        #    if opcao2 == 1:
+        #        newinvest(listainvest, mestrabalho, anotrabalho)
+        #    if opcao2 == 2:
+        #        exibeinvest(listainvest, mestrabalho, anotrabalho)
+        #    if opcao2 == 3:
+        #        deletainvest(listainvest, mestrabalho, anotrabalho)
+        #    if opcao2 == 4:
+        #        updateinvest(listainvest, mestrabalho, anotrabalho)
+        #    if opcao2 == 5:
+        #        invest(listainvest, mestrabalho, anotrabalho)
     if opcao == 'E':
         emprestsaldo(listaemprest, mestrabalho, anotrabalho, listatrans)
     if opcao == 'B':

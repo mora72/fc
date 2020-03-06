@@ -2,7 +2,7 @@ from lib.interface import *
 
 
 def gonewmonth(listameios, listameiossaldo, listacontaprovisaosaldo, listainvest, listaemprest,
-               mestrabalho, anotrabalho):
+               listacontasprevisto, mestrabalho, anotrabalho):
     if mestrabalho == 12:
         mesnovo = 1
         anonovo = anotrabalho + 1
@@ -13,6 +13,13 @@ def gonewmonth(listameios, listameiossaldo, listacontaprovisaosaldo, listainvest
     print(f'{espacos()}ANO TRABALHO: {anotrabalho} - ANO NOVO: {anonovo}')
     print(f'{espacos()}MES TRABALHO: {mestrabalho} - MES NOVO: {mesnovo}')
     print(linha())
+    opcao = input(f'{espacos()} Posso processar CONTAS PREVISTO? Sim (S) ou Não (N) ? ')
+    if opcao in 'Ss':
+        for x in listacontasprevisto:
+            if x["mes"] == mestrabalho and x["ano"] == anotrabalho:
+                registro = {'nome': x['nome'], 'valorprevisto': x['valorprevisto'], 'mes': mesnovo, 'ano': anonovo}
+                print(f'{espacos()}REGISTRO {x["nome"]} INSERIDO')
+                listacontasprevisto.append(registro.copy())
     opcao = input(f'{espacos()} Posso processar MEIOS SALDO? Sim (S) ou Não (N) ? ')
     if opcao in 'Ss':
         for x in listameiossaldo:
