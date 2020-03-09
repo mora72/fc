@@ -20,7 +20,7 @@ def resumomes(listatrans, mestrabalho, anotrabalho, listacontas, listacontasprev
         if mestrabalho == x['mes'] and anotrabalho == x['ano']:
             pos = listaresumo.index(x['conta'])
             listaresumo[pos+1] += x['valor']
-    cabecalho('RESUMO DO MES POR CONTA', 63)
+    # cabecalho('RESUMO DO MES POR CONTA', 63)
     totrecreal = 0
     totrecprev = 0
     totrecdelta = 0
@@ -28,18 +28,23 @@ def resumomes(listatrans, mestrabalho, anotrabalho, listacontas, listacontasprev
     gastoreal = 0
     cabecalho('RECEITAS', 63)
     print(f'{espacos()}{"CONTA":<30} {"REALIZADO":>10} {"PREVISTO":>10} {"DELTA":>10}')
+    zerado = False
     for c, x in enumerate(listaresumo):
         if c % 3 == 0 or c == 0:
             tipoconta = list(filter(lambda conta: conta["nome"] == x, listacontas))[0]["tipo"]
+            zerado = False
             if tipoconta == 'R':
-                print(f'{espacos()}{x:<30} ', end="")
+                if listaresumo[c+1] == 0 and listaresumo[c+2] == 0:
+                    zerado = True
+                else:
+                    print(f'{espacos()}{x:<30} ', end="")
         elif (c-1) % 3 == 0 or (c-1) == 0:
-            if tipoconta == 'R':
+            if tipoconta == 'R' and (not zerado):
                 gastoreal = x
                 print(f'{x:>10,.2f} ', end="")
                 totrecreal += x
         else:
-            if tipoconta == 'R':
+            if tipoconta == 'R' and (not zerado):
                 gastoprev = x
                 totrecprev += x
                 vlrdelta = gastoreal - gastoprev
@@ -47,7 +52,8 @@ def resumomes(listatrans, mestrabalho, anotrabalho, listacontas, listacontasprev
                 print(f'{gastoprev:>10,.2f} {vlrdelta:>10,.2f}')
     print(linha(63))
     print(f'{espacos()}{"TOTAL RECEITAS:":<30} {totrecreal:>10,.2f} {totrecprev:>10,.2f} {totrecdelta:>10,.2f}')
-    aguardaenter()
+    bordasup(1)
+    # aguardaenter()
 
     totdesreal = 0
     totdesprev = 0
@@ -58,10 +64,14 @@ def resumomes(listatrans, mestrabalho, anotrabalho, listacontas, listacontasprev
     for c, x in enumerate(listaresumo):
         if c % 3 == 0 or c == 0:
             tipoconta = list(filter(lambda conta: conta["nome"] == x, listacontas))[0]["tipo"]
+            zerado = False
             if tipoconta in ('D', 'E'):
-                print(f'{espacos()}{x:<30} ', end="")
+                if listaresumo[c+1] == 0 and listaresumo[c+2] == 0:
+                    zerado = True
+                else:
+                    print(f'{espacos()}{x:<30} ', end="")
         elif (c-1) % 3 == 0 or (c-1) == 0:
-            if tipoconta in ('D', 'E'):
+            if tipoconta in ('D', 'E') and (not zerado):
                 gastoreal = x
                 print(f'{x:>10,.2f} ', end="")
                 if tipoconta == 'D':
@@ -69,21 +79,21 @@ def resumomes(listatrans, mestrabalho, anotrabalho, listacontas, listacontasprev
                 elif tipoconta == 'E':
                     totalemprestimos += x
         else:
-            if tipoconta in ('D', 'E'):
+            if tipoconta in ('D', 'E') and (not zerado):
                 gastoprev = x
                 totdesprev += x
                 vlrdelta = gastoreal - gastoprev
                 totdesdelta += vlrdelta
                 print(f'{gastoprev:>10,.2f} {vlrdelta:>10,.2f}')
     print(linha(63))
-    print(f'{espacos()}{"TOTAL RECEITAS:":<30} {totrecreal:>10,.2f} {totrecprev:>10,.2f} {totrecdelta:>10,.2f}')
+    # print(f'{espacos()}{"TOTAL RECEITAS:":<30} {totrecreal:>10,.2f} {totrecprev:>10,.2f} {totrecdelta:>10,.2f}')
     print(f'{espacos()}{"TOTAL DESPESAS:":<30} {totdesreal:>10,.2f} {totdesprev:>10,.2f} {totdesdelta:>10,.2f}')
     print(linha(63))
     print(f'{espacos()}{"DELTA TOTAL:":<30} {(totrecreal+totdesreal):>10,.2f} {(totrecprev+totdesprev):>10,.2f}'
           f' {(totrecdelta+totdesdelta):>10,.2f}')
     print(linha(63))
-    print(f'{espacos()}TOTAL EMPRÉSTIMOS: {totalemprestimos:>8,.2f}')
-    print(linha(63))
+    # print(f'{espacos()}TOTAL EMPRÉSTIMOS: {totalemprestimos:>8,.2f}')
+    # print(linha(63))
     aguardaenter()
 
 
