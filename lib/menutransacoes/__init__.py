@@ -236,8 +236,6 @@ def trans(listatrans, mes, ano, listacontas, listameiossaldo, listameios, listae
                                      'nomeemprest': 'Provisão'
                                      }
                     listatrans.append(registrotrans.copy())
-                    saldofim += valortrans * -1
-                    grava_saldo_fim_meio(listameiossaldo, meiotrans, mes, ano, saldofim)
         elif opcao == 2:
             bordasup(3)
             cabecalho(' DELETAR TRANSAÇÃO', 46, 0)
