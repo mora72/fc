@@ -115,6 +115,7 @@ while True:
     if opcao == 'B':
         resumo_patrimonio(listameios, listameiossaldo, listainvest, listacontaprovisaosaldo, mestrabalho, anotrabalho)
 
+
 arqlistameios.gravar(listameios)
 arqlistameiossaldo.gravar(listameiossaldo)
 arqlistacontas.gravar(listacontas)

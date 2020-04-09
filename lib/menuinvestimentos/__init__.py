@@ -206,10 +206,16 @@ def invest(listainvest, mes, ano):
                 else:
                     print(f'{espacos(margem)}ID Inválido !')
             if idtrans >= 0:
-                listainvest[idtrans]["vlrunifim"] = leiafloat('Valor unitário final: ', margem)
-                listainvest[idtrans]["qtdefim"] = leiaint('Qtde final: (-1 para = inicial)', margem)
-                if listainvest[idtrans]["qtdefim"] == -1:
-                    listainvest[idtrans]["qtdefim"] = listainvest[idtrans]["qtdeini"]
-                listainvest[idtrans]["vlrtotfim"] = listainvest[idtrans]["vlrunifim"] * listainvest[idtrans]["qtdefim"]
+                new_vl = leiafloat('Valor unitário final: ', margem)
+                new_qt = leiaint('Qtde final: (-1 para = inicial)', margem)
+                cabecalho(f'CONFIRMA REGISTRO ? ', 42, margem)
+                opcao = input(f'{espacos(margem)}Sim (S) ou Não (N) ? ')
+                if opcao in 'Ss':
+                    listainvest[idtrans]["vlrunifim"] = new_vl
+                    if new_qt == -1:
+                        listainvest[idtrans]["qtdefim"] = listainvest[idtrans]["qtdeini"]
+                    else:
+                        listainvest[idtrans]["qtdefim"] = new_qt
+                    listainvest[idtrans]["vlrtotfim"] = listainvest[idtrans]["vlrunifim"] * listainvest[idtrans]["qtdefim"]
         elif opcao == 9:
             break
