@@ -1,6 +1,6 @@
 # Funções do Menu SETUP
-# from os import system
 from lib.interface import *
+from lib.arquivos import *
 
 
 def cadmeios(lista):
@@ -16,6 +16,7 @@ def cadmeios(lista):
         print(f'{espacos(30)}Tipo Inválido !')
     registromeio = {'cod': codmeio, 'nome': nomemeio, 'tipo': tipomeio}
     lista.append(registromeio.copy())
+    Arquivolista('/Users/carlo/PycharmProjects/fc/basemeios.pck1', 'Meios').gravar(lista)
     print(f'{espacos(30)}REGISTRO INSERIDO')
     aguardaenter()
 
@@ -46,6 +47,7 @@ def deletameio(lista):
     if achou:
         print(f'{espacos()}Registro código: {codmeiotransacao}, nome: {nomemeiotransacao}, tipo: {tipomeio} DELETADO !')
         del lista[posregistro]
+        Arquivolista('/Users/carlo/PycharmProjects/fc/basemeios.pck1', 'Meios').gravar(lista)
     else:
         print(f'{espacos()}Registro código: {codmeiotransacao} não encontrado!')
     aguardaenter()
@@ -63,6 +65,7 @@ def cadcontas(lista):
                           ' DI = Despesa Investimento ').upper()
         registroconta = {'nome': nomeconta, 'tipo': tipoconta}
         lista.append(registroconta.copy())
+        Arquivolista('/Users/carlo/PycharmProjects/fc/basecontas.pck1', 'Contas').gravar(lista)
         print(f'{espacos(0)}REGISTRO INSERIDO')
         aguardaenter(0)
 
@@ -81,6 +84,7 @@ def deletaconta(lista):
     if achou:
         print(f'{espacos()}Registro nome: {nomeconta} DELETADO !')
         del lista[posregistro]
+        Arquivolista('/Users/carlo/PycharmProjects/fc/basecontas.pck1', 'Contas').gravar(lista)
     else:
         print(f'{espacos()}Registro nome: {nomeconta} não encontrado!')
     aguardaenter()
@@ -93,6 +97,7 @@ def alteramesanotrabalho():
     ano = leiaint('Digite ano de trabalho: ')
     basemesano = list()
     basemesano.append({'mes': mes, 'ano': ano})
+    Arquivolista('/Users/carlo/PycharmProjects/fc/basemesano.pck1', 'MesAno').gravar(basemesano)
     print(f'{espacos()}OK. Alterado.')
     aguardaenter()
     return ano, mes, basemesano
@@ -112,6 +117,7 @@ def meiossaldo(listameios, listameiossaldo, mestrabalho, anotrabalho):
             saldomeio = leiafloat('Digite o saldo do meio: ')
             registro = {'cod': codmeio, 'saldo': saldomeio, 'mes': mestrabalho, 'ano': anotrabalho, 'saldofim': 0}
             listameiossaldo.append(registro.copy())
+            Arquivolista('/Users/carlo/PycharmProjects/fc/basemeiossaldo.pck1', 'MeiosSaldo').gravar(listameiossaldo)
             print(f'{espacos(50)}REGISTRO INSERIDO')
             aguardaenter()
         elif opcao == 2:
@@ -120,6 +126,8 @@ def meiossaldo(listameios, listameiossaldo, mestrabalho, anotrabalho):
                 if x["mes"] == mestrabalho and x["ano"] == anotrabalho and x["cod"] == codmeio:
                     print(f'{espacos(50)}REGISTRO REMOVIDO !')
                     del listameiossaldo[c]
+                    Arquivolista('/Users/carlo/PycharmProjects/fc/basemeiossaldo.pck1',
+                                 'MeiosSaldo').gravar(listameiossaldo)
                     aguardaenter()
                     break
         elif opcao == 9:
@@ -140,6 +148,8 @@ def contasprevisto(listacontas, listacontasprevisto, mestrabalho, anotrabalho):
             valorprevisto = leiafloat('Digite o valor previsto: ')
             registro = {'nome': nomeconta, 'valorprevisto': valorprevisto, 'mes': mestrabalho, 'ano': anotrabalho}
             listacontasprevisto.append(registro.copy())
+            Arquivolista('/Users/carlo/PycharmProjects/fc/basecontasprevisto.pck1',
+                         'ContasPrevisto').gravar(listacontasprevisto)
             print(f'{espacos()}REGISTRO INSERIDO')
             aguardaenter()
         elif opcao == 2:
@@ -148,6 +158,8 @@ def contasprevisto(listacontas, listacontasprevisto, mestrabalho, anotrabalho):
                 if x["mes"] == mestrabalho and x["ano"] == anotrabalho and x["nome"] == nomeconta:
                     print(f'{espacos()}REGISTRO REMOVIDO !')
                     del listacontasprevisto[c]
+                    Arquivolista('/Users/carlo/PycharmProjects/fc/basecontasprevisto.pck1',
+                                 'ContasPrevisto').gravar(listacontasprevisto)
                     aguardaenter()
                     break
         elif opcao == 9:
@@ -189,6 +201,8 @@ def contaprovisaosaldo(listacontas, listacontaprovisaosaldo, mestrabalho, anotra
             registro = {'nome': nomeconta, 'saldoini': saldoconta, 'mes': mestrabalho, 'ano': anotrabalho,
                         'realizado': 0, 'saldofim': 0}
             listacontaprovisaosaldo.append(registro.copy())
+            Arquivolista('/Users/carlo/PycharmProjects/fc/basecontaprovisaosaldo.pck1',
+                         'ContaProvisaoSaldo').gravar(listacontaprovisaosaldo)
             print(f'{espacos()}REGISTRO INSERIDO')
             aguardaenter()
         elif opcao == 2:
@@ -197,6 +211,8 @@ def contaprovisaosaldo(listacontas, listacontaprovisaosaldo, mestrabalho, anotra
                 if x["mes"] == mestrabalho and x["ano"] == anotrabalho and x["nome"] == nomeconta:
                     print(f'{espacos()}REGISTRO REMOVIDO !')
                     del listacontaprovisaosaldo[c]
+                    Arquivolista('/Users/carlo/PycharmProjects/fc/basecontaprovisaosaldo.pck1',
+                                 'ContaProvisaoSaldo').gravar(listacontaprovisaosaldo)
                     aguardaenter()
                     break
         elif opcao == 3:
@@ -209,6 +225,8 @@ def contaprovisaosaldo(listacontas, listacontaprovisaosaldo, mestrabalho, anotra
                             realtemp -= y['valor']
                     x['realizado'] = realtemp
                     x['saldofim'] = x['saldoini'] + realtemp
+            Arquivolista('/Users/carlo/PycharmProjects/fc/basecontaprovisaosaldo.pck1',
+                         'ContaProvisaoSaldo').gravar(listacontaprovisaosaldo)
         elif opcao == 9:
             break
 
@@ -236,6 +254,7 @@ def emprestsaldo(listaemprest, mestrabalho, anotrabalho, listatrans):
             registro = {'nome': nomeemprest, 'saldoini': saldoemprest, 'mes': mestrabalho, 'ano': anotrabalho,
                         'realizado': 0, 'saldofim': 0}
             listaemprest.append(registro.copy())
+            Arquivolista('/Users/carlo/PycharmProjects/fc/baseemprest.pck1', 'Emprestimos').gravar(listaemprest)
             print(f'{espacos()}REGISTRO INSERIDO')
             aguardaenter()
         elif opcao == 2:
@@ -244,6 +263,7 @@ def emprestsaldo(listaemprest, mestrabalho, anotrabalho, listatrans):
                 if x["mes"] == mestrabalho and x["ano"] == anotrabalho and x["nome"] == nomeemprest:
                     print(f'{espacos()}REGISTRO REMOVIDO !')
                     del listaemprest[c]
+                    Arquivolista('/Users/carlo/PycharmProjects/fc/baseemprest.pck1', 'Emprestimos').gravar(listaemprest)
                     aguardaenter()
                     break
         elif opcao == 3:
@@ -256,5 +276,6 @@ def emprestsaldo(listaemprest, mestrabalho, anotrabalho, listatrans):
                             realtemp -= y['valor']
                     x['realizado'] = realtemp
                     x['saldofim'] = x['saldoini'] + realtemp
+            Arquivolista('/Users/carlo/PycharmProjects/fc/baseemprest.pck1', 'Emprestimos').gravar(listaemprest)
         elif opcao == 9:
             break
