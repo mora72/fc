@@ -16,7 +16,7 @@ def cadmeios(lista):
         print(f'{espacos(30)}Tipo Inválido !')
     registromeio = {'cod': codmeio, 'nome': nomemeio, 'tipo': tipomeio}
     lista.append(registromeio.copy())
-    Arquivolista('/Users/carlo/PycharmProjects/fc/basemeios.pck1', 'Meios').gravar(lista)
+    Arqlista('/Users/carlo/PycharmProjects/fc/basemeios.pck1').gravar(lista)
     print(f'{espacos(30)}REGISTRO INSERIDO')
     aguardaenter()
 
@@ -47,7 +47,7 @@ def deletameio(lista):
     if achou:
         print(f'{espacos()}Registro código: {codmeiotransacao}, nome: {nomemeiotransacao}, tipo: {tipomeio} DELETADO !')
         del lista[posregistro]
-        Arquivolista('/Users/carlo/PycharmProjects/fc/basemeios.pck1', 'Meios').gravar(lista)
+        Arqlista('/Users/carlo/PycharmProjects/fc/basemeios.pck1').gravar(lista)
     else:
         print(f'{espacos()}Registro código: {codmeiotransacao} não encontrado!')
     aguardaenter()

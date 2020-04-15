@@ -11,8 +11,7 @@ import locale
 locale.setlocale(locale.LC_ALL, 'pt_BR.UTF-8')
 path.append('C:/Users/carlo/PycharmProjects/fc)')
 
-arqlistameios = Arquivolista('/Users/carlo/PycharmProjects/fc/basemeios.pck1', 'Meios')
-listameios = arqlistameios.ler()
+listameios = Arqlista('/Users/carlo/PycharmProjects/fc/basemeios.pck1').ler()
 
 arqlistameiossaldo = Arquivolista('/Users/carlo/PycharmProjects/fc/basemeiossaldo.pck1', 'MeiosSaldo')
 listameiossaldo = arqlistameiossaldo.ler()
@@ -116,7 +115,7 @@ while True:
         resumo_patrimonio(listameios, listameiossaldo, listainvest, listacontaprovisaosaldo, mestrabalho, anotrabalho)
 
 
-arqlistameios.gravar(listameios)
+Arqlista('/Users/carlo/PycharmProjects/fc/basemeios.pck1').gravar(listameios)
 arqlistameiossaldo.gravar(listameiossaldo)
 arqlistacontas.gravar(listacontas)
 arqlistacontasprevisto.gravar(listacontasprevisto)
