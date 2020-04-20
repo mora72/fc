@@ -3,8 +3,7 @@ from lib.arquivos import *
 from lib.interface import aguardaenter
 path.append('C:/Users/carlo/PycharmProjects/fc)')
 
-arqlistameiossaldo = Arquivolista('/Users/carlo/PycharmProjects/fc/basemeiossaldo.pck1', 'Meios Saldo')
-listameiossaldo = arqlistameiossaldo.ler()
+listameiossaldo = Arqlista('/Users/carlo/PycharmProjects/fc/basemeiossaldo.pck1').ler()
 print(listameiossaldo[0])
 print(listameiossaldo[1])
 print(listameiossaldo[2])

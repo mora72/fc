@@ -117,7 +117,7 @@ def meiossaldo(listameios, listameiossaldo, mestrabalho, anotrabalho):
             saldomeio = leiafloat('Digite o saldo do meio: ')
             registro = {'cod': codmeio, 'saldo': saldomeio, 'mes': mestrabalho, 'ano': anotrabalho, 'saldofim': 0}
             listameiossaldo.append(registro.copy())
-            Arquivolista('/Users/carlo/PycharmProjects/fc/basemeiossaldo.pck1', 'MeiosSaldo').gravar(listameiossaldo)
+            Arqlista('/Users/carlo/PycharmProjects/fc/basemeiossaldo.pck1').gravar(listameiossaldo)
             print(f'{espacos(50)}REGISTRO INSERIDO')
             aguardaenter()
         elif opcao == 2:
@@ -126,8 +126,7 @@ def meiossaldo(listameios, listameiossaldo, mestrabalho, anotrabalho):
                 if x["mes"] == mestrabalho and x["ano"] == anotrabalho and x["cod"] == codmeio:
                     print(f'{espacos(50)}REGISTRO REMOVIDO !')
                     del listameiossaldo[c]
-                    Arquivolista('/Users/carlo/PycharmProjects/fc/basemeiossaldo.pck1',
-                                 'MeiosSaldo').gravar(listameiossaldo)
+                    Arqlista('/Users/carlo/PycharmProjects/fc/basemeiossaldo.pck1').gravar(listameiossaldo)
                     aguardaenter()
                     break
         elif opcao == 9:

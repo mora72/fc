@@ -15,8 +15,7 @@ def grava_saldo_fim_meio(listameiossaldo, meio, mes, ano, saldofim):
     for x in listameiossaldo:
         if x["mes"] == mes and x["ano"] == ano and x['cod'] == meio:
             x["saldofim"] = saldofim
-            arqlistameiossaldo = Arquivolista('/Users/carlo/PycharmProjects/fc/basemeiossaldo.pck1', 'MeiosSaldo')
-            arqlistameiossaldo.gravar(listameiossaldo)
+            Arqlista('/Users/carlo/PycharmProjects/fc/basemeiossaldo.pck1').gravar(listameiossaldo)
             break
 
 

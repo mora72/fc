@@ -13,8 +13,7 @@ path.append('C:/Users/carlo/PycharmProjects/fc)')
 
 listameios = Arqlista('/Users/carlo/PycharmProjects/fc/basemeios.pck1').ler()
 
-arqlistameiossaldo = Arquivolista('/Users/carlo/PycharmProjects/fc/basemeiossaldo.pck1', 'MeiosSaldo')
-listameiossaldo = arqlistameiossaldo.ler()
+listameiossaldo = Arqlista('/Users/carlo/PycharmProjects/fc/basemeiossaldo.pck1').ler()
 
 arqlistacontas = Arquivolista('/Users/carlo/PycharmProjects/fc/basecontas.pck1', 'Contas')
 listacontas = arqlistacontas.ler()
@@ -114,9 +113,8 @@ while True:
     if opcao == 'B':
         resumo_patrimonio(listameios, listameiossaldo, listainvest, listacontaprovisaosaldo, mestrabalho, anotrabalho)
 
-
 Arqlista('/Users/carlo/PycharmProjects/fc/basemeios.pck1').gravar(listameios)
-arqlistameiossaldo.gravar(listameiossaldo)
+Arqlista('/Users/carlo/PycharmProjects/fc/basemeiossaldo.pck1').gravar(listameiossaldo)
 arqlistacontas.gravar(listacontas)
 arqlistacontasprevisto.gravar(listacontasprevisto)
 arqlistacontaprovisaosaldo.gravar(listacontaprovisaosaldo)
