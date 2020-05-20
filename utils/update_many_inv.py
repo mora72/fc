@@ -1,3 +1,5 @@
+# atualiza todos os investimentos do mesmo nome ao mesmo tempo. Evita redigitação
+
 from sys import path
 from lib.arquivos import *
 from lib.interface import *

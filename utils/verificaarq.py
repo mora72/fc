@@ -1,3 +1,5 @@
+# zera valor, qtde de investimentos iniciados no mês
+
 from lib.arquivos import *
 
 

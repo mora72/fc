@@ -120,12 +120,23 @@ def trans(listatrans, mes, ano, listacontas, listameiossaldo, listameios, listae
             if idtransacao >= 0:
                 vlrtrans = listatrans[idtransacao]['valor']
                 meiotrans = listatrans[idtransacao]['meio']
+                contatrans = listatrans[idtransacao]['conta']
 
                 saldofim = ler_saldo_fim_meio(listameiossaldo, meiotrans, mes, ano)
                 saldofim -= vlrtrans
                 grava_saldo_fim_meio(listameiossaldo, meiotrans, mes, ano, saldofim)
 
                 del listatrans[idtransacao]
+                if contatrans == 'Empréstimo':
+                    diatrans = listatrans[idtransacao]['dia']
+                    mestrans = listatrans[idtransacao]['mes']
+                    anotrans = listatrans[idtransacao]['ano']
+                    for c, x in enumerate(listatrans):
+                        if x['mes'] == mestrans and x['ano'] == anotrans and x['dia'] == diatrans and \
+                                x['meio'] == 'PR' and x['valor'] == (vlrtrans * -1) and x['conta'] == 'Empréstimo' and \
+                                x['nomeemprest'] == 'Provisão':
+                            del listatrans[c]
+                            break
                 arqlistatrans = Arquivolista('/Users/carlo/PycharmProjects/fc/basetrans.pck1', 'Transações')
                 arqlistatrans.gravar(listatrans)
         elif opcao == 3:
